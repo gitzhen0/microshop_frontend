@@ -8,4 +8,10 @@ Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://
 ```
 npm install vue-router@4
 ```
-//smalltouch to activate githubaction
+
+### after terraform apply
+* Github Repo Page -> Settings → Secrets and variables → Actions → Variables → New repository variable
+* terraform apply will output those value at terminal
+    * DEPLOY_ROLE_ARN → 你 Terraform 输出的 github_actions_role_arn
+	* DEPLOY_BUCKET → 你 Terraform 输出的 bucket_name
+	* CF_DIST_ID → 你 Terraform 输出的 cloudfront_distribution_id
