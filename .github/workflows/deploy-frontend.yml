@@ -11,11 +11,16 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write   # for OIDC
-      contents: read    # to checkout repo
+      id-token: write
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Context
+        run: |
+          echo "repo=$GITHUB_REPOSITORY"
+          echo "ref=$GITHUB_REF (event=$GITHUB_EVENT_NAME)"
 
       - uses: actions/setup-node@v4
         with:
@@ -30,10 +35,16 @@ jobs:
           role-to-assume: ${{ vars.DEPLOY_ROLE_ARN }}
           aws-region: us-east-1
 
+      - name: WhoAmI (STS)
+        run: aws sts get-caller-identity
+
+      - name: Echo targets
+        run: |
+          echo "Bucket=${{ vars.DEPLOY_BUCKET }}"
+          echo "CF_DIST_ID=${{ vars.CF_DIST_ID }}"
+
       - name: Sync to S3
         run: aws s3 sync dist s3://${{ vars.DEPLOY_BUCKET }}/ --delete
 
       - name: Invalidate CloudFront
-        run: aws cloudfront create-invalidation \
-               --distribution-id ${{ vars.CF_DIST_ID }} \
-               --paths "/*"
+        run: aws cloudfront create-invalidation --distribution-id ${{ vars.CF_DIST_ID }} --paths "/*"
