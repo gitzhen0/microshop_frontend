@@ -15,3 +15,5 @@ npm install vue-router@4
     * DEPLOY_ROLE_ARN → 你 Terraform 输出的 github_actions_role_arn
 	* DEPLOY_BUCKET → 你 Terraform 输出的 bucket_name
 	* CF_DIST_ID → 你 Terraform 输出的 cloudfront_distribution_id
+
+### trigger deploy
