@@ -17,4 +17,4 @@ npm install vue-router@4
 	* CF_DIST_ID → 你 Terraform 输出的 cloudfront_distribution_id
 
 
-### trigger on
+### trigger off
